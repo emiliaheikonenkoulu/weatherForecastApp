@@ -21,13 +21,13 @@ export default function Home() {
         // If permission is granted, we get location and use it in API call as lat and lon.
         let location = await Location.getCurrentPositionAsync({});
 
-        // url for testing: https://api.openweathermap.org/data/2.5/onecall?&units=metric&exclude=minutely&appid=9a563d503b9045d424821962b9b4a9b2&lat=10&lon=20
+        // url for testing: https://api.openweathermap.org/data/2.5/onecall?&units=metric&exclude=minutely&appid=&lat=10&lon=20
         const response = await fetch(`${url}&lat=${location.coords.latitude}&lon=${location.coords.longitude}`);
         // Converting fetched data into JSON.
         const data = await response.json();
 
         // With this fetch we will get user's current location's name.
-        // url for testing: http://api.openweathermap.org/data/2.5/weather?lat=10&lon=20&appid=9a563d503b9045d424821962b9b4a9b2
+        // url for testing: http://api.openweathermap.org/data/2.5/weather?lat=10&lon=20&appid=
         const locationResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location.coords.latitude}&lon=${location.coords.longitude}&appid=${API_KEY}`);
         // Converting fetched data into JSON.
         const locationData = await locationResponse.json();
