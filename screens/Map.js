@@ -4,7 +4,7 @@ import MapView, { Marker } from 'react-native-maps';
 
 export default function Map({ route }) {
   // here we get the params from Search.js
-  const { geocodingUrl } = route.params;
+  const { geocodingUrl, city } = route.params;
   const [coordinates, setCoordinates] = useState({
     latitude: 0,
     longitude: 0
@@ -46,6 +46,7 @@ useEffect(() => {
         <Marker 
           coordinate={coordinates}
           pinColor='#335577'
+          title={city}
         />
       </MapView>
     </View>
@@ -59,8 +60,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  plainView: {
-    width: 60,
   }
 });

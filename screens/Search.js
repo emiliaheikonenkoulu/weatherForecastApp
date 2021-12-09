@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, Alert, Image, Keyboard, FlatList, ImageBackground } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as SQLite from 'expo-sqlite';
 import { Audio } from 'expo-av';
+import * as Notifications from 'expo-notifications';
 import { Input, Button, ListItem } from 'react-native-elements';
 
 const db = SQLite.openDatabase('citiesdb.db');
@@ -26,6 +27,33 @@ export default function Search({ navigation }) {
     const [humidity, setHumidity] = useState(0);
     const [icon, setIcon] = useState('');
 
+    const [notification, setNotification] = useState(false);
+    const notificationListener = useRef();
+    const responseListener = useRef();
+
+    Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+        }),
+      });
+
+      useEffect(() => {
+        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+          setNotification(notification);
+        });
+    
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+          console.log(response);
+        });
+    
+        return () => {
+          Notifications.removeNotificationSubscription(notificationListener.current);
+          Notifications.removeNotificationSubscription(responseListener.current);
+        };
+      }, []);
+
     // Creating database table for cities.
     useEffect(() => {
         db.transaction(tx => {
@@ -41,7 +69,7 @@ export default function Search({ navigation }) {
         }, null, updateList);
         // After save button is pressed, we hide the keyboard
         Keyboard.dismiss();
-        Alert.alert(city +' added to your favorites');
+        schedulePushNotification();
     };
 
     // Update cities list.
@@ -128,7 +156,7 @@ export default function Search({ navigation }) {
     // geocodingUrl to that file using params.
     const getCoordinatesToCity = (city) => {
         const geocodingUrl = `http://www.mapquestapi.com/geocoding/v1/address?key=${geocoding_API_KEY}&location=${city}`;
-        navigation.navigate('Map', {geocodingUrl})
+        navigation.navigate('Map', {geocodingUrl, city})
       };
     
       return (
@@ -189,6 +217,17 @@ export default function Search({ navigation }) {
             </ImageBackground>
         </View>
     );
+
+    async function schedulePushNotification() {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: "New city added to your favorite locations!",
+            body: `${city}`,
+            data: { data: 'goes here' },
+          },
+          trigger: { seconds: 1 },
+        });
+    }
 };
 
 const styles = StyleSheet.create({
