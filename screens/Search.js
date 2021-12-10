@@ -4,6 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import * as SQLite from 'expo-sqlite';
 import { Audio } from 'expo-av';
 import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 import { Input, Button, ListItem } from 'react-native-elements';
 
 const db = SQLite.openDatabase('citiesdb.db');
@@ -40,6 +41,8 @@ export default function Search({ navigation }) {
       });
 
       useEffect(() => {
+        registerForPushNotificationsAsync();
+
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
           setNotification(notification);
         });
@@ -64,12 +67,16 @@ export default function Search({ navigation }) {
 
     // Save new city.
     const saveItem = () => {
-        db.transaction(tx => {
-            tx.executeSql('insert into cities (city) values (?);', [city]);
-        }, null, updateList);
-        // After save button is pressed, we hide the keyboard
-        Keyboard.dismiss();
-        schedulePushNotification();
+        if(city == '') {
+            Alert.alert("Can't add to favorites!");
+        } else {
+            db.transaction(tx => {
+                tx.executeSql('insert into cities (city) values (?);', [city]);
+            }, null, updateList);
+            // After save button is pressed, we hide the keyboard
+            Keyboard.dismiss();
+            schedulePushNotification();
+        }
     };
 
     // Update cities list.
@@ -80,9 +87,6 @@ export default function Search({ navigation }) {
             );
         });
     };
-
-    // with console.log we can see what cities table contains
-    // console.log(cities);
 
     // Delete city with confirm.
     const deleteItem = (id) => {
@@ -129,7 +133,7 @@ export default function Search({ navigation }) {
 
     // Every time user searches new city, fetchLocationData will fetch the new data.
     useEffect(() => {
-        fetchLocationData('helsinki');
+        fetchLocationData('Helsinki');
     }, []);
 
     // fetchLocation will fetch data based on users input from search button.
@@ -153,10 +157,11 @@ export default function Search({ navigation }) {
     };
 
     // After "Show in Map" button is pressed we navigate to Map.js and pass
-    // geocodingUrl to that file using params.
+    // information to that file using params.
     const getCoordinatesToCity = (city) => {
         const geocodingUrl = `http://www.mapquestapi.com/geocoding/v1/address?key=${geocoding_API_KEY}&location=${city}`;
-        navigation.navigate('Map', {geocodingUrl, city})
+        const weatherDataToMap = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`;
+        navigation.navigate('Map', { geocodingUrl, city, weatherDataToMap })
       };
     
       return (
@@ -174,7 +179,9 @@ export default function Search({ navigation }) {
                 <View style={styles.inputIcon}>
                     <MaterialCommunityIcons name="magnify" size={32} onPress={() => fetchLocationData(city)} />
                     <MaterialCommunityIcons name="heart-outline" size={32}
-                        onPress={saveItem}
+                        onPress={() => {
+                            saveItem();
+                        }}
                         title="Save Location"
                     />
                 </View> 
@@ -208,7 +215,7 @@ export default function Search({ navigation }) {
                         <ListItem.Content>
                             <ListItem.Title>{item.city.toUpperCase()}</ListItem.Title>
                         </ListItem.Content>
-                        <Button title="Show in Map" titleStyle={{ color: '#335577' }} type="clear" onPress={() => getCoordinatesToCity(item.city)} />
+                        <Button title="Show in Map" titleStyle={{ color: '#335577' }} type="clear" onPress={() => { getCoordinatesToCity(item.city); }} />
                         <MaterialCommunityIcons name="magnify" size={32} onPress={() => fetchLocationData(item.city)} />
                         <MaterialCommunityIcons name="delete" size={32} onPress={() => { deleteItem(item.id); }} />
                     </ListItem>
@@ -218,15 +225,34 @@ export default function Search({ navigation }) {
         </View>
     );
 
+    // This function shows user a notification when a new city is
+    // addded to favorite locations
     async function schedulePushNotification() {
         await Notifications.scheduleNotificationAsync({
           content: {
-            title: "New city added to your favorite locations!",
-            body: `${city}`,
-            data: { data: 'goes here' },
+            title: "New city added to your favorites!",
+            body: `${city}`
           },
-          trigger: { seconds: 1 },
+          trigger: { seconds: 1 }
         });
+    }
+
+    // This async function will ask permission to use Expo notifications
+    async function registerForPushNotificationsAsync() {
+    if (Constants.isDevice) {
+        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+        }
+        if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+        }
+    } else {
+        alert('Must use physical device for Push Notifications');
+    }
     }
 };
 
