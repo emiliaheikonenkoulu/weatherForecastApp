@@ -86,7 +86,7 @@ export default function Home() {
                     <View>
                         <Text style={{ textAlign: 'center', fontSize: 20, paddingTop: 30 }}>24 hour forecast for {currentLocation}</Text>
                         <FlatList horizontal
-                            data={weather.hourly.slice(0, 24)}
+                            data={weather.hourly.slice(1, 26)}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={(hour) => {
                                 const hourlyForecast = hour.item.weather[0];
