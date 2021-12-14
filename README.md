@@ -10,6 +10,7 @@
 <p>Weather Forecast was created as a part of Mobile Programming course at Haaga-Helia University of Applied Sciences and it has been published on Expo Go:</p>
 
 <br />
+<div align="center">
   <a href="https://github.com/emiliaheikonenkoulu/weatherForecastApp">
     <img src="assets/Home.js.PNG" alt="Home.js" width="240" height="500">
   </a>
@@ -19,7 +20,9 @@
   <a href="https://github.com/emiliaheikonenkoulu/weatherForecastApp">
     <img src="assets/addToFavorites.PNG" alt="Home.js" width="240" height="500">
   </a>
+  
   <br />
+  
   <a href="https://github.com/emiliaheikonenkoulu/weatherForecastApp">
     <img src="assets/notification.png" alt="Home.js" width="240" height="500">
   </a>
@@ -29,6 +32,7 @@
   <a href="https://github.com/emiliaheikonenkoulu/weatherForecastApp">
     <img src="assets/deleteCity.PNG" alt="Home.js" width="240" height="500">
   </a>
+</div>
   
 <!-- TECHNOLOGIES AND LIBRARIES -->
 ## Technologies and libraries
