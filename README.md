@@ -9,6 +9,8 @@
 
 <p>Weather Forecast was created as a part of Mobile Programming course at Haaga-Helia University of Applied Sciences and it has been published on Expo Go:</p>
 
+<p>Weather Forecast is tested only for iPhone 11.</p> 
+
 <br />
 <div align="center">
   <a href="https://github.com/emiliaheikonenkoulu/weatherForecastApp">
