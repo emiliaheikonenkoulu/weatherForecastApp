@@ -19,6 +19,7 @@
   <a href="https://github.com/emiliaheikonenkoulu/weatherForecastApp">
     <img src="assets/addToFavorites.PNG" alt="Home.js" width="240" height="500">
   </a>
+  <br />
   <a href="https://github.com/emiliaheikonenkoulu/weatherForecastApp">
     <img src="assets/notification.png" alt="Home.js" width="240" height="500">
   </a>
