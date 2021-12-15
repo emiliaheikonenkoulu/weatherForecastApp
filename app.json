@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "Weather Forecast is a mobile app created to help users to see their locations current weather and search weather all around the world.  App fetches weather data from OpenWeather Weather API and location data to map from MapQuest Developer Geocoding API.",
+    "githubUrl": "https://github.com/emiliaheikonenkoulu/weatherForecastApp"
   }
 }
