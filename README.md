@@ -9,6 +9,8 @@
 
 <p>Weather Forecast was created as a part of Mobile Programming course at Haaga-Helia University of Applied Sciences and it has been published on Expo Go (only works on Android): https://expo.dev/@emiliaheikonen/weatherMobileApp</p>
 
+<p>Used for testing Weather Forecast: Iphone 11 and OnePlus 6T.</p>
+
 <br />
 <div align="center">
   <a href="https://github.com/emiliaheikonenkoulu/weatherForecastApp">
