@@ -51,7 +51,7 @@ export default function Home() {
     if (!weather) {
         return <View style={styles.loading}>
           <ActivityIndicator size="large" />
-          </View>;
+        </View>;
     };
 
     const current = weather.current.weather[0];
