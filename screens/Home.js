@@ -60,52 +60,52 @@ export default function Home() {
     return (
         <View style={styles.container}>
             <ImageBackground source={require('../assets/blue.jpg')} style={{ flex: 1 }}>
-                <ScrollView>
-                    <Text style={styles.title}>Current Weather</Text>
-                    <Text style={{ textAlign: 'center', fontSize: 20 }}>in {currentLocation}</Text>
-                    <View style={styles.currentWeather}>
-                        <Image style={styles.icon} source={{
-                            uri: `http://openweathermap.org/img/wn/${current.icon}@4x.png`
-                        }}
-                        />
+            <ScrollView>
+                <Text style={styles.title}>Current Weather</Text>
+                <Text style={{ textAlign: 'center', fontSize: 20 }}>in {currentLocation}</Text>
+                <View style={styles.currentWeather}>
+                    <Image style={styles.icon} source={{
+                        uri: `http://openweathermap.org/img/wn/${current.icon}@4x.png`
+                    }}
+                    />
+                </View>
+                <View style={styles.info}>
+                    <View style={styles.weatherInfo}>
+                        <Text style={styles.temperature}>{Math.round(weather.current.temp)}°C</Text>
+                        <Text style={styles.description}>{current.description}</Text>
                     </View>
-                    <View style={styles.info}>
-                        <View style={styles.weatherInfo}>
-                            <Text style={styles.temperature}>{Math.round(weather.current.temp)}°C</Text>
-                            <Text style={styles.description}>{current.description}</Text>
-                        </View>
+                </View>
+                <View style={styles.info}>
+                    <View style={styles.weatherInfo}>
+                        <Text style={{ fontSize: 15, textAlign: 'center', color: 'white' }}> Feels like: {Math.round(weather.current.feels_like)}°C</Text>
+                        <Text style={{ fontSize: 15, textAlign: 'center', color: 'white' }}> Wind speed: {(weather.current.wind_speed).toFixed(1)}m/s</Text>
+                        <Text style={{ fontSize: 15, textAlign: 'center', color: 'white' }}>Humidity: {weather.current.humidity}%</Text>
+                        <Text style={{ fontSize: 15, textAlign: 'center', color: 'white' }}>UV index: {weather.current.uvi}</Text>
                     </View>
-                    <View style={styles.info}>
-                        <View style={styles.weatherInfo}>
-                            <Text style={{ fontSize: 15, textAlign: 'center', color: 'white' }}> Feels like: {Math.round(weather.current.feels_like)}°C</Text>
-                            <Text style={{ fontSize: 15, textAlign: 'center', color: 'white' }}> Wind speed: {(weather.current.wind_speed).toFixed(1)}m/s</Text>
-                            <Text style={{ fontSize: 15, textAlign: 'center', color: 'white' }}>Humidity: {weather.current.humidity}%</Text>
-                            <Text style={{ fontSize: 15, textAlign: 'center', color: 'white' }}>UV index: {weather.current.uvi}</Text>
-                        </View>
-                    </View>
-                    <View>
-                        <Text style={{ textAlign: 'center', fontSize: 20, paddingTop: 30 }}>24 hour forecast for {currentLocation}</Text>
-                        <FlatList horizontal
-                            data={weather.hourly.slice(1, 26)}
-                            keyExtractor={(item, index) => index.toString()}
-                            renderItem={(hour) => {
-                                const hourlyForecast = hour.item.weather[0];
-                                const date = new Date(hour.item.dt * 1000);
+                </View>
+                <View>
+                    <Text style={{ textAlign: 'center', fontSize: 20, paddingTop: 30 }}>24 hour forecast for {currentLocation}</Text>
+                    <FlatList horizontal
+                        data={weather.hourly.slice(1, 26)}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={(hour) => {
+                            const hourlyForecast = hour.item.weather[0];
+                            const date = new Date(hour.item.dt * 1000);
                             return <View style={{ alignItems: 'center', padding: 20 }}>
-                            <Text>{date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</Text>
-                            <Text>{Math.round(hour.item.temp)}°C</Text>
-                            <Image
-                                style={{ width: 150, height: 150 }}
-                                source={{
-                                uri: `http://openweathermap.org/img/wn/${hourlyForecast.icon}@4x.png`
-                                }}
-                            />
-                            <Text style={{ textTransform: 'capitalize' }}>{hourlyForecast.description}</Text>
+                                <Text>{date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</Text>
+                                <Text>{Math.round(hour.item.temp)}°C</Text>
+                                <Image
+                                    style={{ width: 150, height: 150 }}
+                                    source={{
+                                    uri: `http://openweathermap.org/img/wn/${hourlyForecast.icon}@4x.png`
+                                    }}
+                                />
+                                <Text style={{ textTransform: 'capitalize' }}>{hourlyForecast.description}</Text>
                             </View>
-                            }}
-                        />
-                    </View>
-                </ScrollView>
+                        }}
+                    />
+                </View>
+            </ScrollView>
             </ImageBackground>
         </View>
     );
@@ -150,11 +150,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#335577',
         padding: 10,
         borderRadius: 20,
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     info: {
         flexDirection: 'row',
         justifyContent: 'center',
         padding: 10
       }
-})
+});

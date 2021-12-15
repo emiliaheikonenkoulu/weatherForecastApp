@@ -40,22 +40,19 @@ export default function Search({ navigation }) {
         }),
       });
 
-      useEffect(() => {
+    useEffect(() => {
         registerForPushNotificationsAsync();
-
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
           setNotification(notification);
         });
-    
         responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
           console.log(response);
         });
-    
         return () => {
           Notifications.removeNotificationSubscription(notificationListener.current);
           Notifications.removeNotificationSubscription(responseListener.current);
         };
-      }, []);
+    }, []);
 
     // Creating database table for cities.
     useEffect(() => {
@@ -114,7 +111,7 @@ export default function Search({ navigation }) {
           );
     };
 
-    // This async function plays soud when user deletes city from his favorites list.
+    // This async function plays soud when user deletes city from favorite locations list.
     async function playSound() {
         const { sound } = await Audio.Sound.createAsync(
             require("../assets/soundmp.mp3")
@@ -131,7 +128,7 @@ export default function Search({ navigation }) {
           : undefined;
       }, [sound]);
 
-    // Every time user searches new city, fetchLocationData will fetch the new data.
+    // Every time user searches a new city, fetchLocationData will fetch the new data.
     useEffect(() => {
         fetchLocationData('Helsinki');
     }, []);
@@ -194,10 +191,10 @@ export default function Search({ navigation }) {
                     />
                 </View>
                 <View style={styles.info}>
-                <View style={styles.weatherInfo}>
-                    <Text style={styles.temperature}>{Math.round(temp)}°C</Text>
-                    <Text style={styles.description}>{description}</Text>
-                </View>   
+                    <View style={styles.weatherInfo}>
+                        <Text style={styles.temperature}>{Math.round(temp)}°C</Text>
+                        <Text style={styles.description}>{description}</Text>
+                    </View>   
                 </View>             
                 <View style={styles.info}>
                     <View style={styles.weatherInfo}>
@@ -211,11 +208,11 @@ export default function Search({ navigation }) {
                     keyExtractor={item => item.id.toString()} 
                     data={cities} 
                     renderItem={({ item }) => (
-                    <ListItem containerStyle={{backgroundColor: 'transparent'}} topDivider >
+                    <ListItem containerStyle={{ backgroundColor: 'transparent' }} topDivider >
                         <ListItem.Content>
                             <ListItem.Title>{item.city.toUpperCase()}</ListItem.Title>
                         </ListItem.Content>
-                        <Button title="Show in Map" titleStyle={{ color: '#335577' }} type="clear" onPress={() => { getCoordinatesToCity(item.city); }} />
+                        <Button title="Show on Map" titleStyle={{ color: '#335577' }} type="clear" onPress={() => { getCoordinatesToCity(item.city); }} />
                         <MaterialCommunityIcons name="magnify" size={32} onPress={() => fetchLocationData(item.city)} />
                         <MaterialCommunityIcons name="delete" size={32} onPress={() => { deleteItem(item.id); }} />
                     </ListItem>
@@ -226,7 +223,7 @@ export default function Search({ navigation }) {
     );
 
     // This function shows user a notification when a new city is
-    // addded to favorite locations
+    // addded to favorite locations.
     async function schedulePushNotification() {
         await Notifications.scheduleNotificationAsync({
           content: {
@@ -239,20 +236,20 @@ export default function Search({ navigation }) {
 
     // This async function will ask permission to use Expo notifications
     async function registerForPushNotificationsAsync() {
-    if (Constants.isDevice) {
-        const { status: existingStatus } = await Notifications.getPermissionsAsync();
-        let finalStatus = existingStatus;
-        if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
+        if (Constants.isDevice) {
+            const { status: existingStatus } = await Notifications.getPermissionsAsync();
+            let finalStatus = existingStatus;
+            if (existingStatus !== 'granted') {
+                const { status } = await Notifications.requestPermissionsAsync();
+                finalStatus = status;
+            }
+            if (finalStatus !== 'granted') {
+                alert('Failed to get push token for push notification!');
+                return;
+            }
+        } else {
+            alert('Must use physical device for Push Notifications');
         }
-        if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
-        return;
-        }
-    } else {
-        alert('Must use physical device for Push Notifications');
-    }
     }
 };
 
@@ -288,7 +285,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#335577',
         padding: 10,
         borderRadius: 20,
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     info: {
         flexDirection: 'row',
@@ -301,7 +298,7 @@ const styles = StyleSheet.create({
       },
       list: {
         padding: 1,
-        width: '100%',
+        width: '100%'
       }
-})
+});
 

@@ -60,25 +60,25 @@ useEffect(() => {
       <ImageBackground source={require('../assets/sunset.jpg')} style={{ flex: 1 }}>
         <View style={styles.weatherInfo}>
           <Text style={{ fontSize: 20, textAlign: 'center', paddingTop: 10 }}>{city.toUpperCase()}</Text>
-            <Text style={{ fontSize: 15, textAlign: 'center' }}>{Math.round(temp)}°C</Text>
-            <Text style={{ fontSize: 15, textAlign: 'center' }}>{description}</Text>
-            <View style={styles.currentWeather}>
-              <Image style={{ width: 100, height: 100 }}
-                source={{
-                uri: `http://openweathermap.org/img/wn/${icon}@4x.png`
-                }}
-              />
-            </View>
-          </View>
-          <MapView 
-            style={{flex: 1, width: '100%', height: '100%' }}
-            region={region}>
-            <Marker 
-              coordinate={coordinates}
-              pinColor='#335577'
-              title={city}
+          <Text style={{ fontSize: 15, textAlign: 'center' }}>{Math.round(temp)}°C</Text>
+          <Text style={{ fontSize: 15, textAlign: 'center' }}>{description}</Text>
+          <View style={styles.currentWeather}>
+            <Image style={{ width: 100, height: 100 }}
+              source={{
+              uri: `http://openweathermap.org/img/wn/${icon}@4x.png`
+              }}
             />
-          </MapView>
+          </View>
+        </View>
+        <MapView 
+          style={{flex: 1, width: '100%', height: '100%' }}
+          region={region}>
+          <Marker 
+            coordinate={coordinates}
+            pinColor='#335577'
+            title={city}
+          />
+        </MapView>
       </ImageBackground>
     </View>
   );
@@ -86,7 +86,7 @@ useEffect(() => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   weatherInfo: {
     flex: 0.3
