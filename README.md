@@ -7,7 +7,7 @@
 
 <p>In Home page app fetches user's location's current weather and also shows 24 hour forecast for user's location. In Search page user can search weather by city name or by ZIP code. User can add locations to his favorite locations and also delete location from there. If user adds location to his favorite locations app will show notification. When user deletes location from favorite locations list, app will play sound. If user presses "Show on Map" button user can see his favorite location on map. In Map page app shows also weather information to that location.</p>
 
-<p>Weather Forecast was created as a part of Mobile Programming course at Haaga-Helia University of Applied Sciences and it has been published on Expo Go (only works on Android): https://expo.dev/@emiliaheikonen/weatherMobileApp</p>
+<p>Weather Forecast was created as a part of Mobile Programming course at Haaga-Helia University of Applied Sciences.</p>
 
 <p>Used for testing Weather Forecast: iPhone 11 and OnePlus 6T.</p>
 
